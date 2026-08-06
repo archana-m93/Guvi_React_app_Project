@@ -1,0 +1,73 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /home/ubuntu/.jenkins/workspace/reactapp
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /home/ubuntu/.jenkins/workspace/reactapp/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/archana-m93/Guvi_React_app_Project.git # timeout=10
+Fetching upstream changes from https://github.com/archana-m93/Guvi_React_app_Project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.53.0'
+ > git fetch --tags --force --progress -- https://github.com/archana-m93/Guvi_React_app_Project.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 021cde9d9ae43359507dd737a76a50b84d91033e (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 021cde9d9ae43359507dd737a76a50b84d91033e # timeout=10
+Commit message: "Docker file is modified"
+ > git rev-list --no-walk 021cde9d9ae43359507dd737a76a50b84d91033e # timeout=10
+[reactapp] $ /bin/sh -xe /tmp/jenkins17241892476879063637.sh
++ pwd
+/home/ubuntu/.jenkins/workspace/reactapp
++ ls -la
+total 64
+drwxrwxr-x 4 ubuntu ubuntu 4096 Aug  6 00:09 .
+drwxrwxr-x 4 ubuntu ubuntu 4096 Aug  5 12:51 ..
+drwxrwxr-x 7 ubuntu ubuntu 4096 Aug  6 00:32 .git
+-rw-rw-r-- 1 ubuntu ubuntu   91 Aug  6 00:09 Dockerfile
+-rw-rw-r-- 1 ubuntu ubuntu   18 Aug  6 00:04 _redirects
+-rw-rw-r-- 1 ubuntu ubuntu  517 Aug  6 00:04 asset-manifest.json
+-rw-rw-r-- 1 ubuntu ubuntu 3870 Aug  6 00:04 favicon.ico
+-rw-rw-r-- 1 ubuntu ubuntu  961 Aug  6 00:04 index.html
+-rw-rw-r-- 1 ubuntu ubuntu 5347 Aug  6 00:04 logo192.png
+-rw-rw-r-- 1 ubuntu ubuntu 9664 Aug  6 00:04 logo512.png
+-rw-rw-r-- 1 ubuntu ubuntu  492 Aug  6 00:04 manifest.json
+-rw-rw-r-- 1 ubuntu ubuntu   67 Aug  6 00:04 robots.txt
+drwxrwxr-x 4 ubuntu ubuntu 4096 Aug  6 00:04 static
++ docker build -t archana50b0/devops-build:v1 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  3.608MB
+Step 1/4 : FROM nginx:alpine
+ ---> 4a73073bd557
+Step 2/4 : COPY . /usr/share/nginx/html/
+ ---> Using cache
+ ---> 04234826a940
+Step 3/4 : EXPOSE 80
+ ---> Using cache
+ ---> 67f91f98edbd
+Step 4/4 : CMD ["nginx","-g","daemon off;"]
+ ---> Using cache
+ ---> d53f05fa6a97
+Successfully built d53f05fa6a97
+Successfully tagged archana50b0/devops-build:v1
++ docker images
+WARNING: This output is designed for human readability. For machine-readable output, please use --format.
+IMAGE                         ID             DISK USAGE   CONTENT SIZE   EXTRA
+alpine:latest                 28bd5fe8b56d         13MB         3.93MB        
+app:v1                        4d99c7b93cb7       96.1MB         26.8MB   U    
+archana50b0/devops-build:v1   d53f05fa6a97       98.3MB         27.7MB        
+archanamr/dev:v1              4d99c7b93cb7       96.1MB         26.8MB   U    
+archanamr/prod:v1             4d99c7b93cb7       96.1MB         26.8MB   U    
+nginx:alpine                  4a73073bd557       93.6MB           27MB        
++ docker rm -f devops-app
+devops-app
++ docker rm -f devops2-app
+devops2-app
++ docker run -d --name devops-app -p 80:80 archanamr/dev:v1
+99b3768edfdf87042bdc03c78a63ee54f173dd1001e34e674bffc177cd199996
++ docker run -d --name devops2-app -p 8081:80 archanamr/prod:v1
+73c92274f6975378773c0748b7190ab0577a5446482d63fe384cabc6996cf80f
+Finished: SUCCESS
