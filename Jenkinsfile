@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['DEV', 'PROD'],
+            description: 'Select the environment to build and deploy'
+        )
+    }
+
     stages {
 
         stage('Checkout') {
@@ -9,10 +17,82 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Jenkins pipeline is working successfully!'
+                script {
+                    if (params.ENVIRONMENT == 'DEV') {
+                        sh '''
+                            docker build -t archanamr/dev:v1 .
+                        '''
+                    } else {
+                        sh '''
+                            docker build -t archanamr/prod:v1 .
+                        '''
+                    }
+                }
             }
+        }
+
+        stage('Docker Hub Login') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login \
+                        -u "$DOCKER_USER" \
+                        --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    if (params.ENVIRONMENT == 'DEV') {
+                        sh '''
+                            docker push archanamr/dev:v1
+                        '''
+                    } else {
+                        sh '''
+                            docker push archanamr/prod:v1
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    if (params.ENVIRONMENT == 'DEV') {
+                        sh '''
+                            docker compose pull dev
+                            docker compose up -d dev
+                        '''
+                    } else {
+                        sh '''
+                            docker compose pull prod
+                            docker compose up -d prod
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment to ${params.ENVIRONMENT} completed successfully!"
+        }
+
+        failure {
+            echo "Deployment to ${params.ENVIRONMENT} failed."
         }
     }
 }
