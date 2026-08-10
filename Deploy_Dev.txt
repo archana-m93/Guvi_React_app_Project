@@ -1,0 +1,250 @@
+Started by user unknown or anonymous
+Obtained Jenkinsfile from git https://github.com/archana-m93/Guvi_React_app_Project.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /home/ubuntu/.jenkins/workspace/ReactApp1 pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git
+No credentials specified
+ > git rev-parse --resolve-git-dir /home/ubuntu/.jenkins/workspace/ReactApp1 pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/archana-m93/Guvi_React_app_Project.git # timeout=10
+Fetching upstream changes from https://github.com/archana-m93/Guvi_React_app_Project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.53.0'
+ > git fetch --tags --force --progress -- https://github.com/archana-m93/Guvi_React_app_Project.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision f674444add0aa76e1ddace46ec0200ba4cebfe62 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f f674444add0aa76e1ddace46ec0200ba4cebfe62 # timeout=10
+Commit message: "added Jenkins file5 modified"
+ > git rev-list --no-walk f674444add0aa76e1ddace46ec0200ba4cebfe62 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+The recommended git tool is: git
+No credentials specified
+ > git rev-parse --resolve-git-dir /home/ubuntu/.jenkins/workspace/ReactApp1 pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/archana-m93/Guvi_React_app_Project.git # timeout=10
+Fetching upstream changes from https://github.com/archana-m93/Guvi_React_app_Project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.53.0'
+ > git fetch --tags --force --progress -- https://github.com/archana-m93/Guvi_React_app_Project.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision f674444add0aa76e1ddace46ec0200ba4cebfe62 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f f674444add0aa76e1ddace46ec0200ba4cebfe62 # timeout=10
+Commit message: "added Jenkins file5 modified"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t archanamr/dev:v1 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  13.32MB
+Step 1/4 : FROM nginx:alpine
+ ---> 4a73073bd557
+Step 2/4 : COPY . /usr/share/nginx/html/
+ ---> Using cache
+ ---> ce72c3a98592
+Step 3/4 : EXPOSE 80
+ ---> Using cache
+ ---> 29e037ab85e7
+Step 4/4 : CMD ["nginx","-g","daemon off;"]
+ ---> Running in bb3b2e8cf51d
+ ---> Removed intermediate container bb3b2e8cf51d
+ ---> aededbb820de
+Successfully built aededbb820de
+Successfully tagged archanamr/dev:v1
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Hub Login)
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASSWORD
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u archanamr --password-stdin
+Login Succeeded
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to Docker Hub)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker push archanamr/dev:v1
+The push refers to repository [docker.io/archanamr/dev]
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+d0008c891db4: Waiting
+c153d9f5e977: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Waiting
+62bec68d7c31: Waiting
+c153d9f5e977: Layer already exists
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+3cd534fe98c6: Layer already exists
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Waiting
+46519e7231d2: Waiting
+55afa1ecc21d: Waiting
+62bec68d7c31: Waiting
+d0008c891db4: Layer already exists
+1223f016b4e4: Waiting
+46f977ee452f: Waiting
+390dc935348d: Layer already exists
+62bec68d7c31: Layer already exists
+1223f016b4e4: Layer already exists
+46f977ee452f: Layer already exists
+46519e7231d2: Layer already exists
+55afa1ecc21d: Layer already exists
+v1: digest: sha256:aededbb820de253fde506cd6dec49c461a45aac200fbbdc83070f8323d691190 size: 2266
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker compose pull dev
+ dev Pulling 
+ dev Pulled 
++ docker rm -f devops-app
+devops-app
++ docker compose up -d dev
+ Container devops-app  Creating
+ Container devops-app  Created
+ Container devops-app  Starting
+ Container devops-app  Started
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Deployment to DEV completed successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
