@@ -68,23 +68,24 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                script {
-                    if (params.ENVIRONMENT == 'DEV') {
-                        sh '''
-                            docker compose pull dev
-                            docker compose up -d dev
-                        '''
-                    } else {
-                        sh '''
-                            docker compose pull prod
-                            docker compose up -d prod
-                        '''
-                    }
-                }
+    steps {
+        script {
+            if (params.ENVIRONMENT == 'DEV') {
+                sh '''
+                    docker compose pull dev
+                    docker rm -f devops-app 2>/dev/null || true
+                    docker compose up -d dev
+                '''
+            } else {
+                sh '''
+                    docker compose pull prod
+                    docker rm -f devops2-app 2>/dev/null || true
+                    docker compose up -d prod
+                '''
             }
         }
     }
+}
 
     post {
         success {
