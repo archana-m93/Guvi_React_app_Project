@@ -1,0 +1,12 @@
+services:
+  dev:
+    image: archanamr/dev:v1
+    container_name: devops-app
+    ports:
+      - "80:80"
+
+  prod:
+    image: archanamr/prod:v1
+    container_name: devops2-app
+    ports:
+      - "8081:80"
