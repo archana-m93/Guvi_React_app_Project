@@ -21,13 +21,9 @@ pipeline {
             steps {
                 script {
                     if (params.ENVIRONMENT == 'DEV') {
-                        sh '''
-                            docker build -t archanamr/dev:v1 .
-                        '''
+                        sh 'docker build -t archanamr/dev:v1 .'
                     } else {
-                        sh '''
-                            docker build -t archanamr/prod:v1 .
-                        '''
+                        sh 'docker build -t archanamr/prod:v1 .'
                     }
                 }
             }
@@ -55,37 +51,39 @@ pipeline {
             steps {
                 script {
                     if (params.ENVIRONMENT == 'DEV') {
-                        sh '''
-                            docker push archanamr/dev:v1
-                        '''
+                        sh 'docker push archanamr/dev:v1'
                     } else {
-                        sh '''
-                            docker push archanamr/prod:v1
-                        '''
+                        sh 'docker push archanamr/prod:v1'
                     }
                 }
             }
         }
 
         stage('Deploy') {
-    steps {
-        script {
-            if (params.ENVIRONMENT == 'DEV') {
-                sh '''
-                    docker compose pull dev
-                    docker rm -f devops-app 2>/dev/null || true
-                    docker compose up -d dev
-                '''
-            } else {
-                sh '''
-                    docker compose pull prod
-                    docker rm -f devops2-app 2>/dev/null || true
-                    docker compose up -d prod
-                '''
+            steps {
+                script {
+
+                    if (params.ENVIRONMENT == 'DEV') {
+
+                        sh '''
+                            docker compose pull dev
+                            docker rm -f devops-app 2>/dev/null || true
+                            docker compose up -d dev
+                        '''
+
+                    } else {
+
+                        sh '''
+                            docker compose pull prod
+                            docker rm -f devops2-app 2>/dev/null || true
+                            docker compose up -d prod
+                        '''
+
+                    }
+                }
             }
         }
     }
-}
 
     post {
         success {
@@ -97,3 +95,5 @@ pipeline {
         }
     }
 }
+```
+
